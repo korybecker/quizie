@@ -1,0 +1,58 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// npx prisma db push
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Quiz {
+  id        String     @id @default(cuid())
+  title     String
+  questions Question[]
+  published Boolean    @default(false)
+  creator   User?      @relation(fields: [creatorId], references: [id])
+  creatorId String?
+  createdAt DateTime   @default(now()) @map(name: "created_at")
+  updatedAt DateTime   @updatedAt @map(name: "updated_at")
+}
+
+model Question {
+  id      String   @id @default(cuid())
+  text    String?
+  quiz    Quiz?    @relation(fields: [quizId], references: [id])
+  quizId  String?
+  options Option[]
+}
+
+model Option {
+  id         String    @id @default(cuid())
+  text       String
+  question   Question? @relation(fields: [questionId], references: [id])
+  questionId String?
+  answer     Answer[]
+}
+
+model Answer {
+  id        String  @id @default(cuid())
+  option    Option? @relation(fields: [optionId], references: [id])
+  optionId  String?
+  isCorrect Boolean @default(false)
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String?
+  email     String?  @unique
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt @map(name: "updated_at")
+  quizzes   Quiz[]
+
+  @@map(name: "users")
+}
