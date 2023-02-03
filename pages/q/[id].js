@@ -1,29 +1,29 @@
 import prisma from "@/lib/prisma";
 
 export const getServerSideProps = async ({ params }) => {
-    let post = await prisma.quiz.findUnique({
+    let quiz = await prisma.quiz.findUnique({
       where: {
         id: String(params?.id),
       },
       include: {
-        creator: {
-          select: { name: true },
-        },
-      },
+        questions: true,
+        creator: true
+      }
     });
-    post = JSON.stringify(post);
+    quiz = JSON.stringify(quiz);
     return {
-      props: {post},
+      props: {quiz},
     };
   };
 
-export default function Quiz({post}) {
-    post = JSON.parse(post)
+export default function Quiz({quiz}) {
+    quiz = JSON.parse(quiz)
+    console.log(quiz)
     return (
         <>
             <h1>Quiz</h1>
             <div>
-                {post.title} - {post.creator.name}
+                {quiz.title} - {quiz.creator.name}
             </div>
         </>
     )
