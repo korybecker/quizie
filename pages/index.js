@@ -4,7 +4,7 @@ import QuizBlock from '@/components/QuizBlock';
 
 export const getStaticProps = async () => {
   const posts = await prisma.quiz.findMany({
-    where: { published: true },
+    where: { published: false },
     include: {
       creator: {
         select: { name: true },
