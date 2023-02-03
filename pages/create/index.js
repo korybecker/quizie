@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Router from "next/router";
 
 export default function Create() {
   const [title, setTitle] = useState("");
@@ -60,12 +61,24 @@ export default function Create() {
     setQuestions(questions.slice(0, questions.length - 1));
   }
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    const quiz = {title, description, questions};
-    console.log(quiz);
+    const res = await fetch('/api/create', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        title, description, questions
+      })
+    })
 
+    if (res.ok) {
+      Router.push('/');
+    } else {
+      console.log(res.statusText)
+    }
   };
 
   return (
@@ -106,10 +119,6 @@ export default function Create() {
           <button type="button" onClick={() => removeOption(questionIndex)}>
             Remove Option
           </button>
-          <label>
-            Answer:
-            <input type="text" name="answer" value={question.answer} onChange={(e) => handleQuestionChange(questionIndex, e)} />
-          </label>
           <hr />
         </div>
       ))}
