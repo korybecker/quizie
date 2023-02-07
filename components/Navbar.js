@@ -62,7 +62,6 @@ function ResponsiveAppBar() {
     };
 
     const handleCloseUserMenu = (setting) => {
-        console.log(setting);
         if (setting === "Logout") {
             signOut();
             router.push("/");

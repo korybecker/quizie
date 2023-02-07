@@ -24,7 +24,6 @@ export const getServerSideProps = async ({ params }) => {
 export default function Profile({ user, quizzes }) {
     user = JSON.parse(user);
     quizzes = JSON.parse(quizzes);
-    console.log(quizzes);
     return (
         <div className={styles.profilepage}>
             <div className={styles.profileHalf}>
