@@ -20,7 +20,6 @@ export const getStaticProps = async () => {
 
 export default function Quizies({ allPosts }) {
     allPosts = JSON.parse(allPosts);
-    console.log(allPosts);
     return (
         <>
             <h1 style={{ textAlign: "center" }}>Quizies</h1>
