@@ -20,15 +20,14 @@ export const getStaticProps = async () => {
 
 export default function Quizies({ allPosts }) {
     allPosts = JSON.parse(allPosts);
+    console.log(allPosts);
     return (
         <>
+            <h1 style={{ textAlign: "center" }}>Quizies</h1>
             <div className={styles.container}>
-                <h1>Quizies</h1>
-                <div>
-                    {allPosts.map((post, i) => {
-                        return <QuizBlock key={i} post={post} />;
-                    })}
-                </div>
+                {allPosts.map((post, i) => {
+                    return <QuizBlock key={i} post={post} />;
+                })}
             </div>
         </>
     );
